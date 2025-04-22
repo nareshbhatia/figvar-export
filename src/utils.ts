@@ -37,7 +37,7 @@ export async function createZipFile(files: DesignTokensFile[]) {
   const zip = new JSZip();
 
   for (const file of files) {
-    zip.file(file.fileName, JSON.stringify(file.body, null, 2));
+    zip.file(file.fileName, `${JSON.stringify(file.body, null, 2)}\n`);
   }
 
   // Generate the zip file
