@@ -1,27 +1,15 @@
-import { EventHandler } from '@create-figma-plugin/utilities';
-
-export interface GetTokensRequestHandler extends EventHandler {
-  name: 'GET_TOKENS_REQUEST';
-  handler: () => void;
-}
-
-export interface GetTokensResponseHandler extends EventHandler {
-  name: 'GET_TOKENS_RESPONSE';
-  handler: (files: DesignTokensFile[]) => void;
-}
-
-export interface CloseHandler extends EventHandler {
-  name: 'CLOSE';
-  handler: () => void;
-}
-
-// For aliases in string format like "{color.primary}"
-export type DesignTokenReference = string;
+import type { EventHandler } from '@create-figma-plugin/utilities';
 
 // A single token
 export interface DesignToken {
+  /*
+   * Types in Figma: BOOLEAN, COLOR, FLOAT, STRING
+   * Types in output: boolean, color, number, string
+   */
   $type: string;
-  $value: string | number | boolean | DesignTokenReference;
+
+  // Alias values are formatted as strings like "{color.primary}"
+  $value: boolean | number | string;
 }
 
 // Collection of tokens
@@ -40,4 +28,19 @@ export interface RGBColor {
   g: number;
   b: number;
   a: number;
+}
+
+export interface GetTokensRequestHandler extends EventHandler {
+  name: 'GET_TOKENS_REQUEST';
+  handler: () => void;
+}
+
+export interface GetTokensResponseHandler extends EventHandler {
+  name: 'GET_TOKENS_RESPONSE';
+  handler: (files: DesignTokensFile[]) => void;
+}
+
+export interface CloseHandler extends EventHandler {
+  name: 'CLOSE';
+  handler: () => void;
 }

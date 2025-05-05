@@ -1,0 +1,7 @@
+/build/
+/node_modules/
+.eslintrc.cjs
+vite.config.js
+vite.config.ts
+vite.config.d.ts
+src/vite-env.d.ts

@@ -1,5 +1,4 @@
-import { emit, on, once, showUI } from '@create-figma-plugin/utilities';
-import {
+import type {
   CloseHandler,
   DesignToken,
   DesignTokens,
@@ -9,6 +8,7 @@ import {
   RGBColor,
 } from './types';
 import { rgbToHex, FigmaToW3cTokenType, toKebabCase } from './utils';
+import { emit, on, once, showUI } from '@create-figma-plugin/utilities';
 
 function isVariableAlias(value: unknown): value is VariableAlias {
   return (
@@ -33,7 +33,6 @@ async function processCollection({
         ? `${toKebabCase(name)}.${toKebabCase(mode.name)}.tokens.json`
         : `${toKebabCase(name)}.tokens.json`;
     const file: DesignTokensFile = { fileName, body: {} };
-    console.log(`---------- ${fileName} ----------`);
 
     // Process each variable
     for (const variableId of variableIds) {
@@ -42,13 +41,14 @@ async function processCollection({
 
       const { name, resolvedType, valuesByMode } = variable;
       const value = valuesByMode[mode.modeId];
-      // console.log(JSON.stringify({ name, resolvedType }));
       if (value === undefined || value === null) continue;
 
       // Traverse the token path, creating nested objects as needed
       let obj: DesignTokens = file.body;
       name.split('/').forEach((groupName) => {
-        obj[groupName] = obj[groupName] || {};
+        if (obj[groupName] === undefined) {
+          obj[groupName] = {};
+        }
         obj = obj[groupName] as DesignTokens;
       });
 
@@ -97,12 +97,12 @@ async function handleGetTokensRequest() {
 }
 
 export default function () {
-  on<GetTokensRequestHandler>('GET_TOKENS_REQUEST', async function () {
+  on<GetTokensRequestHandler>('GET_TOKENS_REQUEST', async () => {
     const files = await handleGetTokensRequest();
     emit<GetTokensResponseHandler>('GET_TOKENS_RESPONSE', files);
   });
 
-  once<CloseHandler>('CLOSE', function () {
+  once<CloseHandler>('CLOSE', () => {
     figma.closePlugin();
   });
 

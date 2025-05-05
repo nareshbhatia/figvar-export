@@ -1,4 +1,4 @@
-import { RGBColor, DesignTokensFile } from './types';
+import type { RGBColor, DesignTokensFile } from './types';
 // importing from just 'jszip' gives this esbuild error: Could not resolve "jszip"
 import JSZip from 'jszip/dist/jszip.min.js';
 
@@ -18,7 +18,7 @@ export function rgbToHex({ r, g, b, a }: RGBColor) {
   }
   const toHex = (value: number) => {
     const hex = Math.round(value * 255).toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
+    return hex.length === 1 ? `0${hex}` : hex;
   };
 
   const hex = [toHex(r), toHex(g), toHex(b)].join('');
@@ -37,6 +37,7 @@ export async function createZipFile(files: DesignTokensFile[]) {
   const zip = new JSZip();
 
   for (const file of files) {
+    // eslint-disable-next-line no-restricted-syntax
     zip.file(file.fileName, `${JSON.stringify(file.body, null, 2)}\n`);
   }
 

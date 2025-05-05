@@ -33,15 +33,6 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "editor.indentSize": 2,
-  "eslint.rules.customizations": [
-    { "rule": "import/no-unresolved", "severity": "off" }
-  ],
-  "eslint.workingDirectories": [
-    "./",
-    { "pattern": "./apps/*/" },
-    { "pattern": "./packages/*/" },
-    { "pattern": "./plugins/*/" }
-  ],
   "files.insertFinalNewline": true,
   "prettier.enable": true,
   "[javascript]": {
