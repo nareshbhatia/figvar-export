@@ -1,6 +1,6 @@
 import type { RGBColor, DesignTokensFile } from './types';
 // importing from just 'jszip' gives this esbuild error: Could not resolve "jszip"
-import JSZip from 'jszip/dist/jszip.min.js';
+import JSZip from 'jszip/dist/jszip.min';
 
 export const FigmaToW3cTokenType: { [K in VariableResolvedDataType]: string } =
   {

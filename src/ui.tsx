@@ -52,10 +52,9 @@ function Plugin() {
   );
 
   useEffect(() => {
-    on<GetTokensResponseHandler>(
-      'GET_TOKENS_RESPONSE',
-      handleGetTokensResponse,
-    );
+    on<GetTokensResponseHandler>('GET_TOKENS_RESPONSE', (files) => {
+      void handleGetTokensResponse(files);
+    });
   }, [handleGetTokensResponse]);
 
   return (

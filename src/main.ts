@@ -99,9 +99,11 @@ async function handleGetTokensRequest() {
 }
 
 export default function () {
-  on<GetTokensRequestHandler>('GET_TOKENS_REQUEST', async () => {
-    const files = await handleGetTokensRequest();
-    emit<GetTokensResponseHandler>('GET_TOKENS_RESPONSE', files);
+  on<GetTokensRequestHandler>('GET_TOKENS_REQUEST', () => {
+    void (async () => {
+      const files = await handleGetTokensRequest();
+      emit<GetTokensResponseHandler>('GET_TOKENS_RESPONSE', files);
+    })();
   });
 
   once<CloseHandler>('CLOSE', () => {
