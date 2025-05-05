@@ -20,7 +20,7 @@ function isVariableAlias(value: unknown): value is VariableAlias {
 }
 
 async function processCollection({
-  name,
+  name: collectionName,
   modes,
   variableIds,
 }: VariableCollection) {
@@ -30,8 +30,8 @@ async function processCollection({
   for (const mode of modes) {
     const fileName =
       modeCount > 1
-        ? `${toKebabCase(name)}.${toKebabCase(mode.name)}.tokens.json`
-        : `${toKebabCase(name)}.tokens.json`;
+        ? `${toKebabCase(collectionName)}.${toKebabCase(mode.name)}.tokens.json`
+        : `${toKebabCase(collectionName)}.tokens.json`;
     const file: DesignTokensFile = { fileName, body: {} };
 
     // Process each variable
@@ -75,6 +75,8 @@ async function processCollection({
         case 'BOOLEAN':
         case 'STRING':
           token.$value = value as string;
+          break;
+        default:
           break;
       }
     }
